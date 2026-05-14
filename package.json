@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.63",
+    "@ai-sdk/react": "^3.0.184",
     "ai": "^6.0.182",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"

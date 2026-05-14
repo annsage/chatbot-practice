@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { FormEvent } from 'react';
-import type { Message } from 'ai';
+import { useChat } from '@ai-sdk/react';
 import { useVocabularyChat } from '../api/chat';
 
 const TOPICS = [
@@ -16,7 +16,7 @@ export const Chatbot: React.FC = () => {
   const { messages, append, isLoading, error } = useVocabularyChat();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change
@@ -30,7 +30,7 @@ export const Chatbot: React.FC = () => {
 
   const handleDifficultySelect = (difficulty: string) => {
     if (!selectedTopic) return;
-    
+
     const content = `주제: ${selectedTopic}\n난이도: ${difficulty}\n\n위 조건에 맞는 영어 단어 퀴즈를 시작해줘.`;
     append({
       role: 'user',
@@ -41,7 +41,7 @@ export const Chatbot: React.FC = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isLoading) return;
-    
+
     append({
       role: 'user',
       content: inputValue,
@@ -110,7 +110,7 @@ export const Chatbot: React.FC = () => {
                   </button>
                 ))}
               </div>
-              <button 
+              <button
                 className="reset-btn"
                 onClick={() => setSelectedTopic(null)}
               >

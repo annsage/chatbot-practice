@@ -1,4 +1,4 @@
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 
 export const useVocabularyChat = () => {
   // useChat automatically handles streaming state from the /api/chat endpoint
