@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { FormEvent } from 'react';
+// 이전 단계의 패키지 오류를 방지하기 위해 훅 내부의 라이브러리 경로를 확인해야 합니다.
+// 만약 useVocabularyChat 내부에서 에러가 난다면 해당 파일의 import를 @ai-sdk/react로 바꿔주세요.
 import { useVocabularyChat } from '../api/chat';
 
 const TOPICS = [
@@ -12,13 +14,14 @@ const TOPICS = [
 const DIFFICULTIES = ['초급', '중급', '고급'];
 
 export const Chatbot: React.FC = () => {
+  // useVocabularyChat이 내부적으로 @ai-sdk/react의 useChat을 사용한다고 가정합니다.
   const { messages, append, isLoading, error } = useVocabularyChat();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when messages change
+  // 메시지가 추가될 때마다 자동으로 스크롤을 아래로 내립니다.
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -56,10 +59,11 @@ export const Chatbot: React.FC = () => {
       </header>
 
       <div className="chat-window">
-        {messages.map((m: any) => (
+        {messages.map((m) => (
           <div key={m.id} className={`message ${m.role}`}>
             <div className="message-bubble">
-              {m.content.split('\n').map((line: string, i: number) => (
+              {/* 줄바꿈을 처리하여 텍스트를 렌더링합니다. */}
+              {m.content.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {line}
                   <br />
@@ -68,7 +72,9 @@ export const Chatbot: React.FC = () => {
             </div>
           </div>
         ))}
-        {isLoading && (
+
+        {/* 스트리밍 중일 때 마지막 메시지가 생성 중임을 알리는 표시 (필요 시 유지) */}
+        {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
           <div className="message assistant">
             <div className="message-bubble typing-indicator">
               <span>.</span><span>.</span><span>.</span>
@@ -78,6 +84,7 @@ export const Chatbot: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* 첫 대화 시작 전후의 UI 분기 처리 */}
       {messages.length === 0 && (
         <div className="selection-area">
           {!selectedTopic ? (
@@ -122,7 +129,7 @@ export const Chatbot: React.FC = () => {
 
       {error && (
         <div className="error-message">
-          오류가 발생했습니다: {error.message}
+          오류가 발생했습니다. 잠시 후 다시 시도해주세요.
         </div>
       )}
 
