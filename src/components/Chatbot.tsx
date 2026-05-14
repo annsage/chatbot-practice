@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { FormEvent } from 'react';
-import { useChat } from '@ai-sdk/react';
 import { useVocabularyChat } from '../api/chat';
 
 const TOPICS = [
@@ -57,7 +56,7 @@ export const Chatbot: React.FC = () => {
       </header>
 
       <div className="chat-window">
-        {messages.map((m: Message) => (
+        {messages.map((m: any) => (
           <div key={m.id} className={`message ${m.role}`}>
             <div className="message-bubble">
               {m.content.split('\n').map((line: string, i: number) => (
