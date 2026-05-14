@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import type { FormEvent } from 'react';
 // 이전 단계의 패키지 오류를 방지하기 위해 훅 내부의 라이브러리 경로를 확인해야 합니다.

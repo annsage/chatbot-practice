@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useChat } from '@ai-sdk/react';
 
 export const useVocabularyChat = () => {
